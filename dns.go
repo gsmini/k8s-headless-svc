@@ -10,6 +10,7 @@ func getDnsForPodIP(svc []*Service) (ipMaps map[string][]string, err error) {
 	for _, value := range svc {
 		dnsForK8sSvc := fmt.Sprintf("%s.%s.svc.cluster.local", value.SvcName, value.Namespace)
 		ipRecords, err := net.LookupIP(dnsForK8sSvc)
+		fmt.Println(ipRecords)
 		if err != nil {
 			return nil, err
 		}
