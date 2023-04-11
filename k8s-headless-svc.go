@@ -1,6 +1,7 @@
 package k8s_headless_svc
 
 import (
+	"fmt"
 	"go-micro.dev/v4/registry"
 )
 
@@ -67,6 +68,9 @@ func (k *k8sSvcRegister) GetService(string, ...registry.GetOption) ([]*registry.
 
 	//nodes = append(nodes, &registry.Node{Address: "127.0.0.1:8080"})
 	//service = append(service, &registry.Service{Name: "user", Version: "latest", Nodes: nodes})
+	fmt.Println("1111111")
+	fmt.Println(service)
+	fmt.Println("1111111")
 
 	return service, nil
 }
@@ -87,6 +91,11 @@ func (k *k8sSvcRegister) ListServices(...registry.ListOption) ([]*registry.Servi
 		service = append(service, &registry.Service{Name: svcName, Version: "latest", Nodes: nodes})
 
 	}
+	fmt.Println("222222")
+
+	fmt.Println(service)
+	fmt.Println("2222")
+
 	return service, nil
 }
 

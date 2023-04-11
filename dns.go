@@ -7,6 +7,7 @@ import (
 
 //dns for headless service in k8s: (service_name).$(k8s_namespace).svc.cluster.local
 func getDnsForPodIP(svc []*Service) (ipMaps map[string][]string, err error) {
+	ipMaps = make(map[string][]string, 10)
 	for _, value := range svc {
 		dnsForK8sSvc := fmt.Sprintf("%s.%s.svc.cluster.local", value.SvcName, value.Namespace)
 		ipRecords, err := net.LookupIP(dnsForK8sSvc)
