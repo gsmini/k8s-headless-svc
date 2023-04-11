@@ -70,6 +70,9 @@ func (k *k8sSvcRegister) GetService(string, ...registry.GetOption) ([]*registry.
 	//service = append(service, &registry.Service{Name: "user", Version: "latest", Nodes: nodes})
 	fmt.Println("1111111")
 	fmt.Println(service)
+	for _, s := range service {
+		fmt.Println(&s)
+	}
 	fmt.Println("1111111")
 
 	return service, nil
