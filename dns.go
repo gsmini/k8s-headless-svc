@@ -19,6 +19,7 @@ func getDnsForPodIP(svc []*Service) (ipMaps map[string][]string, err error) {
 			//{
 			// "user-svc":["127.0.0.1:8080","127.0.0.1:8081"]
 			//}
+			fmt.Println(value.SvcName, ip.String(), value.PodPort)
 			ipMaps[value.SvcName] = append(ipMaps[value.SvcName], fmt.Sprintf("%s:%d", ip.String(), value.PodPort))
 		}
 	}
