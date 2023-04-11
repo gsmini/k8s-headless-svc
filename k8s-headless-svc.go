@@ -38,10 +38,12 @@ func (k *k8sSvcRegister) Options() registry.Options {
 }
 func (k *k8sSvcRegister) Register(*registry.Service, ...registry.RegisterOption) error {
 	//解析dns 返回pod id
+	// because we use k8s svc replace Register func ,so this func do nothing
 	return nil
 }
 func (k *k8sSvcRegister) Deregister(*registry.Service, ...registry.DeregisterOption) error {
 	//解析dns 返回pod id
+	// because we use k8s svc replace Register func ,so this func do nothing
 
 	return nil
 }
@@ -62,6 +64,7 @@ func (k *k8sSvcRegister) GetService(string, ...registry.GetOption) ([]*registry.
 		service = append(service, &registry.Service{Name: svcName, Version: "latest", Nodes: nodes})
 
 	}
+
 	//nodes = append(nodes, &registry.Node{Address: "127.0.0.1:8080"})
 	//service = append(service, &registry.Service{Name: "user", Version: "latest", Nodes: nodes})
 
@@ -91,7 +94,7 @@ func (k *k8sSvcRegister) Watch(option ...registry.WatchOption) (registry.Watcher
 	return &k8sSvcWatcher{}, nil
 }
 func (k *k8sSvcRegister) String() string {
-	return "k8s_headless_svc"
+	return "k8s-headless-svc"
 }
 
 // NewRegistry creates a kubernetes registry.
