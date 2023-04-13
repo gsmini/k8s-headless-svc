@@ -5,7 +5,7 @@
 dns用，利用go的net包去做dns解析，然后获取service endpoints的podip记录返回，实现服务发现的功能。
 
 
-## 如何是用
+## 如何使用
 ```go
 package main
 
@@ -47,6 +47,7 @@ func main() {
 	# 省略不重要业务到吗
 }
 ```
+
 ## 核心原理代码
 ```go
 package main
@@ -64,13 +65,24 @@ func main() {
 		fmt.Println(value.String())
 	}
 }
-
 ```
+> 利用net.LookupIP解析host 返回服务ip
 ```shell
 14.119.104.254
 14.119.104.189
 ```
-> 输出ip 效果如果nslookup www.baidu.com一样
+输出ip 效果如果nslookup www.baidu.com一样：
+```shell
+Server:         10.96.0.10
+Address:        10.96.0.10#53
+
+Non-authoritative answer:
+www.baidu.com   canonical name = www.a.shifen.com.
+Name:   www.a.shifen.com
+Address: 14.119.104.189
+Name:   www.a.shifen.com
+Address: 14.119.104.254
+```
 
 在部署grpc server的时候Service需要配置sessionAffinity(session亲和性),保证grpc server收得到消息后能正常返回
 ```yaml
