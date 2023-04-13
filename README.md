@@ -1,6 +1,6 @@
 # 项目说明
 ## 关于项目
-    当前项目是一个go-micro的register插件，当我们在用k8s部署go-micro的grpc server的时候，如果用k8s 内置的service
+当前项目是一个go-micro的register插件，当我们在用k8s部署go-micro的grpc server的时候，如果用k8s 内置的service
 去部署grpc server的pod，是无法进行grpc的http2.0的，所以我采用headless service(无头service)方式去部署，把service当作
 dns用，利用go的net包去做dns解析，然后获取service endpoints的podip记录返回，实现服务发现的功能。
 
