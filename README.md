@@ -50,4 +50,37 @@ spec:
     clientIP:
       timeoutSeconds: 3600
 ```
-## example
+## examples
+具体见examples下的fronted和user项目
+
+```shell
+kubectl apply -f k8s.yaml
+```
+> 执行部署命令去部署
+
+## 
+```shell
+root@hecs-410147:# kubectl  get svc
+NAME             TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+frontend-svc     ClusterIP   10.108.199.130   <none>        80/TCP     40h
+```
+> 查看frontend-svc clusterIp
+```shell
+
+curl http://10.108.199.130/index
+```
+> 请求frontend-svc clusterIp
+
+```shell
+root@hecs-410147:~# kubectl logs user-5cdd5697f-vr5db
+2023-04-09 22:22:21  file=build/main.go:33 level=info Starting [service] user
+2023-04-09 22:22:21  file=v4@v4.9.0/service.go:96 level=info Transport [http] Listening on [::]:8080
+2023-04-09 22:22:21  file=v4@v4.9.0/service.go:96 level=info Broker [http] Connected to 127.0.0.1:33039
+2023-04-09 22:22:21  file=server/rpc_server.go:832 level=info Registry [memory] Registering node: user-defaaa6b-7314-4757-bb47-9a1ea6043d0d
+2023-04-11 20:46:35  file=handler/user.go:16 level=info Received User.Call request: name:"gsmini@sina.cn"
+2023-04-11 21:23:35  file=handler/user.go:16 level=info Received User.Call request: name:"gsmini@sina.cn"
+2023-04-11 21:25:00  file=handler/user.go:16 level=info Received User.Call request: name:"gsmini@sina.cn"
+2023-04-11 21:35:39  file=handler/user.go:16 level=info Received User.Call request: name:"gsmini@sina.cn"
+2023-04-11 21:35:49  file=handler/user.go:16 level=info Received User.Call request: name:"gsmini@sina.cn"
+```
+> 查看user pod 的日志
