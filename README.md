@@ -5,7 +5,48 @@
 dns用，利用go的net包去做dns解析，然后获取service endpoints的podip记录返回，实现服务发现的功能。
 
 
+## 如何是用
+```go
+package main
 
+import (
+	"fmt"
+	"github.com/go-micro-v4-demo/frontend/handler"
+	helloworldPb "github.com/go-micro-v4-demo/helloworld/proto"
+	userPb "github.com/go-micro-v4-demo/user/proto"
+	mgrpc "github.com/go-micro/plugins/v4/client/grpc"
+	mhttp "github.com/go-micro/plugins/v4/server/http"
+	"github.com/gorilla/mux"
+	k8sHeadlessSvc "github.com/gsmini/k8s-headless-svc"
+	"go-micro.dev/v4/logger"
+	"net/http"
+)
+
+var (
+	service = "frontend"
+	version = "latest"
+)
+
+const K8sSvcName = "user-svc"
+
+const UserSvcName = "user-svc"        //user模块在k8s service中的metadata.name的名字
+const HelloWordSvcName = "helloworld" //user模块在k8s service中的metadata.name的名字
+func main() {
+	UserSvc := &k8sHeadlessSvc.Service{Namespace: "default", SvcName: UserSvcName, PodPort: 8080}
+	//HelloWordSvc := &k8sHeadlessSvc.Service{Namespace: "default", SvcName: HelloWordSvcName, PodPort: 9090}
+	reg := k8sHeadlessSvc.NewRegistry([]*k8sHeadlessSvc.Service{UserSvc})
+	// 当前frontend调用依赖多个grpc 上游服务器的情况
+	//reg := k8sHeadlessSvc.NewRegistry([]*k8sHeadlessSvc.Service{UserSvc},[]*k8sHeadlessSvc.Service{HelloWordSvcName})
+	srv := micro.NewService()
+	srv.Init(
+		micro.Name(service),
+		micro.Version(version),
+		micro.Address("0.0.0.0:8080"), 
+		micro.Registry(reg),//和内置registry一样注册我们的k8sHeadlessSvc registry
+	)
+	# 省略不重要业务到吗
+}
+```
 ## 核心原理代码
 ```go
 package main
